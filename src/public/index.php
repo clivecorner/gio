@@ -3,24 +3,13 @@
 //Classes and Objects
 
 require_once 'Transaction.php';
+require_once 'PaymentProfile.php';
+require_once 'Customer.php';
 
-$transaction = (new Transaction(25,'25 quid'))
-  ->applyDiscount(2)
-  ->addTax(10);
 
-//var_dump($transaction->getAmount());
+$transaction = new Transaction(5,'Test');
 
-$str = '{"a":1,"b":2,"c":3}';
-
-$arr = json_decode($str);
-
-var_dump($arr->c);
-
-$obj = new \stdClass();
-
-$obj->a = 1;
-$obj->b = 2;
-
-var_dump($obj);
+//Use of the null safe operator - once null is encountered the remainder to the the right is discarded 
+echo $transaction->customer?->paymentProfile?->id;
 
 
