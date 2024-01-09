@@ -4,14 +4,14 @@
 
 //Classes and Objects
 
-require_once('../PaymentGateway/Paddle/Transaction.php');
-require_once('../PaymentGateway/Stripe/Transaction.php');
-require_once('../PaymentGateway/Paddle/CustomerProfile.php');
-require_once('../Notification/Email.php');
+require_once(__DIR__ .'/../app/PaymentGateway/Paddle/Transaction.php');
+require_once(__DIR__ .'/../app/PaymentGateway/Stripe/Transaction.php');
+require_once(__DIR__ .'/../app/PaymentGateway/Paddle/CustomerProfile.php');
+require_once(__DIR__. '/../app/Notification/Email.php');
 
 //Import class using namespace
-use PaymentGateway\Paddle\Transaction as PaddleTransaction;
-use PaymentGateway\Stripe\Transaction as StripeTransaction;
+use App\PaymentGateway\Paddle\Transaction as PaddleTransaction;
+use App\PaymentGateway\Stripe\Transaction as StripeTransaction;
 
 
 new PaddleTransaction;

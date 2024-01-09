@@ -1,10 +1,10 @@
 <?php 
 declare(strict_types=1);
 
-namespace PaymentGateway\Paddle;
+namespace App\PaymentGateway\Paddle;
 
 //Import namespace
-use Notification\Email;
+use App\Notification\Email;
 
 class Transaction
 {
@@ -23,7 +23,7 @@ class Transaction
     new \DateTime();
 
     //Fully qualified name uses namespace import
-    new \Notification\Email();
+    new \App\Notification\Email();
 
     //Not qualified name
     new Email();
