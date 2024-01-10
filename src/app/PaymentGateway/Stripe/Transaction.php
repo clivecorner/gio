@@ -3,34 +3,30 @@ declare(strict_types=1);
 
 namespace App\PaymentGateway\Stripe;
 
-use App\Enums\Status;
 
 class Transaction
 {
-  private string $status;
+  private static int $count = 0;
+
   
   //Constructor property promotion
-  public function __construct()
-  {
-    $this->setStatus(Status::PENDING);
+  public function __construct(
+
+    public float $amount,
+    public string $description
+
+    ){
+
+  
+    self::$count++;
   } 
 
-  public function setStatus(string $status):self
+  public static function getCount():int
   {
-    if(! isset(Status::ALL_STATUSES[$status])){
-      throw new \InvalidArgumentException('Invalid status');
-    }
-
-    $this->status = $status;
-
-    return $this;
+    return self::$count;
   }
 
-  public function getStatus():string
-  {
-    return $this->status;
-  }
-
+ 
 
 
 }

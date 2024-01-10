@@ -1,18 +1,16 @@
 <?php
-//Lesson 2.6 - Class Constants
+//Lesson 2.7 - Static Properties & Methods
 
 require __DIR__ . '/../vendor/autoload.php';
 
 //Import class using namespace
-use App\PaymentGateway\Paddle\Transaction as PaddleTransaction;
 use App\PaymentGateway\Stripe\Transaction as StripeTransaction;
-use APP\Enums\Status;
+use App\DB;
 
-$stripeTransaction = new StripeTransaction();
+//NB A static variable is a class variable
+new StripeTransaction(4, 'number 4');
+$stripeTransaction = new StripeTransaction(5,'number 5');
+echo $stripeTransaction::getCount();
 
-$stripeTransaction->setStatus(Status::PAID);
-
-echo $stripeTransaction->getStatus();
-
-
+DB::getInstance([]);
 
