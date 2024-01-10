@@ -1,16 +1,18 @@
 <?php
+//Lesson 2.6 - Class Constants
 
 require __DIR__ . '/../vendor/autoload.php';
 
 //Import class using namespace
 use App\PaymentGateway\Paddle\Transaction as PaddleTransaction;
 use App\PaymentGateway\Stripe\Transaction as StripeTransaction;
-use Ramsey\Uuid\UuidFactory;
+use APP\Enums\Status;
 
+$stripeTransaction = new StripeTransaction();
 
+$stripeTransaction->setStatus(Status::PAID);
 
-$stripeTransaction = new StripeTransaction(3);
+echo $stripeTransaction->getStatus();
 
-echo $stripeTransaction->id;
 
 
