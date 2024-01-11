@@ -6,25 +6,17 @@ namespace App\PaymentGateway\Stripe;
 
 class Transaction
 {
-  private static int $count = 0;
 
+  private float $amount;
   
   //Constructor property promotion
-  public function __construct(
-
-    public float $amount,
-    public string $description
-
-    ){
-
+  public function __construct(float $amount)
+  {
+    $this->amount = $amount;
   
-    self::$count++;
+    
   } 
 
-  public static function getCount():int
-  {
-    return self::$count;
-  }
 
  
 

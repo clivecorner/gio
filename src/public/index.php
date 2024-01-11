@@ -1,16 +1,19 @@
 <?php
-//Lesson 2.7 - Static Properties & Methods
+//Lesson 2.8 - PHP encapsulation and abstraction.
+
+//Encapsulation hides the internal values abstraction hides the implementation.
 
 require __DIR__ . '/../vendor/autoload.php';
 
 //Import class using namespace
 use App\PaymentGateway\Stripe\Transaction as StripeTransaction;
-use App\DB;
 
 //NB A static variable is a class variable
-new StripeTransaction(4, 'number 4');
-$stripeTransaction = new StripeTransaction(5,'number 5');
-echo $stripeTransaction::getCount();
+$stripeTransaction = new StripeTransaction(25);
 
-DB::getInstance([]);
+//The below gets around the private nature of the value $amount
+$reflectionProperty = new ReflectionProperty(StripeTransaction::class, 'amount');
+$reflectionProperty->setAccessible(true);
+$reflectionProperty->setValue($stripeTransaction, 125);
+var_dump($reflectionProperty->getValue($stripeTransaction));
 
