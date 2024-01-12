@@ -1,19 +1,17 @@
 <?php
-//Lesson 2.8 - PHP encapsulation and abstraction.
+//Lesson 2.9  - Inheritance explained  - is it good?
 
-//Encapsulation hides the internal values abstraction hides the implementation.
 
 require __DIR__ . '/../vendor/autoload.php';
 
-//Import class using namespace
-use App\PaymentGateway\Stripe\Transaction as StripeTransaction;
+use App\Toaster;
+use App\ToasterPro;
 
-//NB A static variable is a class variable
-$stripeTransaction = new StripeTransaction(25);
 
-//The below gets around the private nature of the value $amount
-$reflectionProperty = new ReflectionProperty(StripeTransaction::class, 'amount');
-$reflectionProperty->setAccessible(true);
-$reflectionProperty->setValue($stripeTransaction, 125);
-var_dump($reflectionProperty->getValue($stripeTransaction));
+$toasterPro = new ToasterPro();
 
+
+$toasterPro->addSlice('Bread');
+$toasterPro->addSlice('Bread');
+
+$toasterPro->toastBagels();
