@@ -1,18 +1,23 @@
 <?php
-//2.10 Abstract classes and methods
+//2.11 Interfaces and polymorphism
 
 require __DIR__ . '/../vendor/autoload.php';
 
 
-//2.11 Abstract classes and methods
+//2.11 Interfaces and polymorphism
 
-$fields = [
-  new \App\Text('textField'),
-  new \App\Checkbox('checkboxField'),
-  new \App\Radio('radioField'),
-];
+/*Differences between Abstract classes and Interfaces
+
+Abstract classes                        Interfaces
+-contain method implementation          only contain method declaration 
+-can contain properties                 only contain methods and constants
+-can have private and protected methods public methods only
+-extend only a single class             multiple interfaces
+
+*/
 
 
-foreach ($fields as $field) {
-  echo $field->render() . '<br />';
-}
+$service = new App\DebtCollectionService();
+
+echo $service->collectDebt(new \App\CollectionAgency);
+echo $service->collectDebt(new \App\Rocky);
