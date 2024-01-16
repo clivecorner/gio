@@ -1,23 +1,18 @@
 <?php
-//2.11 Interfaces and polymorphism
+//Lesson 2.12  Magic methods
 
 require __DIR__ . '/../vendor/autoload.php';
 
+$magicMethods = new App\MagicMethods();
 
-//2.11 Interfaces and polymorphism
+//The below does not work
+//$magicMethods->data['test'] = 20;
 
-/*Differences between Abstract classes and Interfaces
+//Using the __isset magic method
+var_dump(isset($magicMethods->data['test']));
 
-Abstract classes                        Interfaces
--contain method implementation          only contain method declaration 
--can contain properties                 only contain methods and constants
--can have private and protected methods public methods only
--extend only a single class             multiple interfaces
+//Using the _call magic method
+$magicMethods->process(1, 2, 3);
 
-*/
-
-
-$service = new App\DebtCollectionService();
-
-echo $service->collectDebt(new \App\CollectionAgency);
-echo $service->collectDebt(new \App\Rocky);
+//Uses the __toString magic method
+echo $magicMethods;
