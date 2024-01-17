@@ -1,18 +1,26 @@
 <?php
-//Lesson 2.12  Magic methods
-
+//Lesson 2.13 Late Static Binding
+/*
+Early binding at compile time and late binding at run time
+*/
 require __DIR__ . '/../vendor/autoload.php';
 
-$magicMethods = new App\MagicMethods();
+/*
+$classA = new App\ClassA();
+$classB = new App\ClassB();
 
-//The below does not work
-//$magicMethods->data['test'] = 20;
+//When getName is a non-static method the output is A and B 
+echo $classA->getName() . PHP_EOL;
+echo $classB->getName() . PHP_EOL;
 
-//Using the __isset magic method
-var_dump(isset($magicMethods->data['test']));
+//When getName is static the output is A and A, it should be A and B
+We overcome this by using the word static - see ClassA
+echo App\ClassA::getName();
+echo App\ClassB::getName();
 
-//Using the _call magic method
-$magicMethods->process(1, 2, 3);
+*/
 
-//Uses the __toString magic method
-echo $magicMethods;
+//To return the object
+var_dump(App\ClassA::make());
+var_dump(App\ClassB::make());
+
