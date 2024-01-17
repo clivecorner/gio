@@ -11,7 +11,6 @@ class Transaction
 
  
 
-  //Constructor property promotion
   public function __construct()
   {
     echo 'in here';
