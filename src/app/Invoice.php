@@ -2,38 +2,28 @@
 
 namespace App;
 
+use App\MissingBillingException;
+
 
 class Invoice
 {
-  private string $id;
 
-  public function __construct(
-    public float $amount,
-    public string $description,
-    public string $creditCardNumber
-  ) {
-    $this->id = uniqid('id_');
-
-  }
-  
-  public function __serialize():array
+  public function __construct(public Customer $customer)
   {
-    return [
-      'id' => $this->id,
-      'amount' => $this->amount,
-      'description' => $this->description,
-      'creditCardNumber' => base64_encode($this->creditCardNumber)
-    ];
+
   }
 
-  public function __unserialize(array $data ):void 
+  public function process(float $amount): void
   {
-    $this->amount = $data['amount'];
-    $this->description = $data['description'];
-    $this->id = $data['id'];
-    $this->creditCardNumber = base64_decode('creditCardNumber');
-    $foo = 'bar';
-
+    if($amount <= 0){
+      throw new \InvalidArgumentException('Invalid invoice amount'); // Both Exception class and Error class implement throwable
+    }
+    if(empty($this->customer->getBillingInfo())){
+      throw new MissingBillingException;
+    }
+    echo 'Processing $' . $amount . ' invoice';
+    sleep(2);
+    echo ' OK ' . PHP_EOL;
   }
-  
+
 }
