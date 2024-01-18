@@ -1,20 +1,28 @@
 <?php
-//Lesson 2.18 - Object cloning
+//Lesson 2.19 Serialize objects
 
 
 require __DIR__ . '/../vendor/autoload.php';
 
 use App\Invoice;
 
-$invoice1 = new Invoice;
+// echo serialize(true) . PHP_EOL;
+// echo serialize(1) . PHP_EOL;
+// echo serialize(2.5) . PHP_EOL;
+// echo serialize('String') . PHP_EOL;
+// echo serialize([1,2,3,4]) . PHP_EOL;
+// echo serialize(['a' => 1, 'b' => 2]) . PHP_EOL;
 
-//When an object is cloned we create an identical but different object
-$invoice2 = clone $invoice1;
+//Serialization of objects maintains properties and values but does not maintain methods
+// $invoice1 = new Invoice;
+// $invoice3 = unserialize(serialize($invoice1));
+// var_dump($invoice1);
+// var_dump($invoice3);
 
-var_dump($invoice1, $invoice2);
+$invoice = new Invoice(300, 'Amount of invoice', '98099030303');
 
-var_dump($invoice1 === $invoice2);
+$invoiceSerialized = serialize($invoice);
 
 
-
+var_dump(unserialize($invoiceSerialized));
 

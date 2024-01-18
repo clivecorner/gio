@@ -5,33 +5,35 @@ namespace App;
 
 class Invoice
 {
-  public string $id;  
-  public function __construct()
-  {
+  private string $id;
+
+  public function __construct(
+    public float $amount,
+    public string $description,
+    public string $creditCardNumber
+  ) {
     $this->id = uniqid('id_');
+
   }
   
-  /**
-   * create
-   * uses new static to create containing class
-   * @return static
-   * @author clive <clivecorner@btinternet.com>
-   */
-  public static function create():static
+  public function __serialize():array
   {
-    return new static();
+    return [
+      'id' => $this->id,
+      'amount' => $this->amount,
+      'description' => $this->description,
+      'creditCardNumber' => base64_encode($this->creditCardNumber)
+    ];
   }
-  
-  /**
-   * __clone
-   *
-   * Called when the key word clone is used
-   * 
-   * @return void
-   */
-  public function __clone()
+
+  public function __unserialize(array $data ):void 
   {
-    $this->id = uniqid('id_');
+    $this->amount = $data['amount'];
+    $this->description = $data['description'];
+    $this->id = $data['id'];
+    $this->creditCardNumber = base64_decode('creditCardNumber');
+    $foo = 'bar';
+
   }
   
 }
