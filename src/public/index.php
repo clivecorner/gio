@@ -1,22 +1,41 @@
 <?php
-//Lesson 2.22 Iterators and iterable type
+//Lesson 2.23 Super Globals - basic routing using the server information
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$invoice = new App\Invoice(25);
+/*variables
+Server 
+$_SERVER,$_GET,$_POST,$_FILES,$_COOKIE,$_SESSION,$_REQUEST,$_ENV
 
-//Iterating over an object
-foreach($invoice as $key => $value){
-  //echo $key . '  =  ' . $value . PHP_EOL;
-}
+https://www.php.net/manual/en/reserved.variables.php <- predefined variables
+*/
+
+//register routes
+
+$router = new App\Router();
+
+/* The simple way to register routes
+$router->register(
+  '/',
+  function () {
+    echo 'Home';
+  }
+);
 
 
-$invoiceCollection = new App\InvoiceCollection([new App\Invoice(25), new App\Invoice(100), new App\Invoice(40)]);
+$router->register(
+  '/invoices',
+  function () {
+    echo 'Invoices';
+  }
+);
+*/
+
+$router
+  ->register('/', [App\Classes\Home::class, 'index'])
+  ->register('/invoice', [App\Classes\Invoice::class, 'index'])
+  ->register('/invoices/create', [App\Classes\Invoice::class, 'create']);
+
+  echo $router->resolve($_SERVER['REQUEST_URI']);
 
 
-foreach($invoiceCollection as $invoice){
-
-  echo $invoice->id . ' = ' . $invoice->amount . PHP_EOL;
-}
-
-//Also includes using the iterator Aggregates 
