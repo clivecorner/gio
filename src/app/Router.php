@@ -16,17 +16,33 @@ class Router
    * @param  mixed $action
    * @return self
    */
-  public function register(string $route, callable | array $action):self
+  public function register(string $requestMethod,string $route, callable | array $action):self
   {
     //Store route and acton mapping
-    $this->routes[$route] = $action;
+    $this->routes[$requestMethod][$route] = $action;
     return $this;
   }
 
-  public function resolve(string $requestURI)
+  public function get(string $route, callable | array $action):self
+  {
+    return $this->register('get', $route, $action);
+  }
+
+
+  public function post(string $route, callable | array $action):self
+  {
+    return $this->register('post', $route, $action);
+  }
+  
+  public function routes():array
+  {
+    return $this->routes;
+  }
+
+  public function resolve(string $requestURI,string $requestMethod)
   {
     $route = explode('?', $requestURI)[0];
-    $action = $this->routes[$route] ?? null;
+    $action = $this->routes[$requestMethod][$route] ?? null;
 
     if(! $action){
       throw new RouteNotFoundException;

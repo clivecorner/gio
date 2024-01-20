@@ -1,41 +1,20 @@
 <?php
-//Lesson 2.23 Super Globals - basic routing using the server information
+//Lesson 2.24 GET and POST Super Globals in PHP forms
 
 require __DIR__ . '/../vendor/autoload.php';
 
-/*variables
-Server 
-$_SERVER,$_GET,$_POST,$_FILES,$_COOKIE,$_SESSION,$_REQUEST,$_ENV
-
-https://www.php.net/manual/en/reserved.variables.php <- predefined variables
-*/
 
 //register routes
 
 $router = new App\Router();
 
-/* The simple way to register routes
-$router->register(
-  '/',
-  function () {
-    echo 'Home';
-  }
-);
-
-
-$router->register(
-  '/invoices',
-  function () {
-    echo 'Invoices';
-  }
-);
-*/
 
 $router
-  ->register('/', [App\Classes\Home::class, 'index'])
-  ->register('/invoice', [App\Classes\Invoice::class, 'index'])
-  ->register('/invoices/create', [App\Classes\Invoice::class, 'create']);
+  ->get('/', [App\Classes\Home::class, 'index'])
+  ->get('/invoice', [App\Classes\Invoice::class, 'index'])
+  ->get('/invoice/create', [App\Classes\Invoice::class, 'create'])
+  ->post('/invoice/create', [App\Classes\Invoice::class, 'store']);
 
-  echo $router->resolve($_SERVER['REQUEST_URI']);
+  echo $router->resolve($_SERVER['REQUEST_URI'],strtolower($_SERVER['REQUEST_METHOD']));
 
 
