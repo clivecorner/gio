@@ -1,18 +1,25 @@
 <?php
-//Lesson 2.26 PHP files uploads 
+//Lesson 2.27 Model View Controller
+/*
+Model. The model layer is responsible for the application's data (business) logic and storing and retrieving data from back-end data stores. 
+The model layer might also include mechanisms for validating data and carrying out other data-related tasks. 
+This layer is responsible for maintaining all aspects of the data and ensuring its integrity and accessibility.
+
+View. The view layer provides the UI necessary to interact with the application. It includes components needed to display the data and
+enables users to interact with that data. For example, the view layer might include buttons, links, tables, drop-down lists or text boxes.
+
+Controller. The controller layer contains the application logic necessary to facilitate communications across the application, acting 
+as an interface between the view and model layers. The controller is sometimes viewed as the brains of the application, keeping everything 
+moving and in sync. Requests responses and handle resources.
 
 
+
+*/
 
 require __DIR__ . '/../vendor/autoload.php';
 
-
-/* php.ini stuff 
-max_input_time
-max_file_uploads
-upload_max_filesize
-upload_tmp_dir
-*/
 define('STORAGE_PATH', __DIR__ . '/../storage');
+define('VIEW_PATH', __DIR__ . '/../views');
 
 
 //register routes
@@ -20,12 +27,26 @@ define('STORAGE_PATH', __DIR__ . '/../storage');
 $router = new App\Router();
 
 
+/*
+NB below is a simple approach to routing as outlined in PHP Superglobals - basic routing using server information
+in this case the second element of the the register method is callable.
+
+$router->register(
+  '/',
+  function (){
+    echo 'home';
+  }
+);
+*/
+
+
 $router
-  ->post('/upload', [App\Classes\Home::class, 'upload'])
-  ->get('/', [App\Classes\Home::class, 'index'])
-  ->get('/invoice', [App\Classes\Invoice::class, 'index'])
-  ->get('/invoice/create', [App\Classes\Invoice::class, 'create'])
-  ->post('/invoice/create', [App\Classes\Invoice::class, 'store']);
+  ->post('/upload', [App\Controllers\HomeController::class, 'upload'])
+  ->get('/', [App\Controllers\HomeController::class, 'index'])
+  ->get('/invoices', [App\Controllers\InvoiceController::class, 'index'])
+  ->get('/invoices/create', [App\Controllers\InvoiceController::class, 'create'])
+  ->post('/invoices/create', [App\Controllers\InvoiceController::class, 'store']);
+
 
   echo $router->resolve($_SERVER['REQUEST_URI'],strtolower($_SERVER['REQUEST_METHOD']));
 

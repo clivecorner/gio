@@ -18,7 +18,7 @@ class Router
    */
   public function register(string $requestMethod,string $route, callable | array $action):self
   {
-    //Store route and acton mapping
+    //Maps the $action array (the class and method name) to the request method (GET or POST) and and the route (URI) eg /
     $this->routes[$requestMethod][$route] = $action;
     return $this;
   }
@@ -38,11 +38,13 @@ class Router
   {
     return $this->routes;
   }
-
-  public function resolve(string $requestURI,string $requestMethod)
+  //The 
+  public function resolve(string $requestURI,string $requestMethod, array $params = []):string
   {
     $route = explode('?', $requestURI)[0];
+    //This is the heart of the routing where we match the  request method and the route against the stored request method and route 
     $action = $this->routes[$requestMethod][$route] ?? null;
+
 
     if(! $action){
       throw new RouteNotFoundException;
@@ -51,6 +53,8 @@ class Router
       return call_user_func($action);
     }
 
+    
+
     if(is_array($action)){
       [$class, $method] = $action;
 
@@ -58,6 +62,7 @@ class Router
         $class = new $class();
 
         if(method_exists($class,$method)){
+          //We run the method within the class
           return call_user_func_array([$class, $method], []);
         }
       }
