@@ -19,6 +19,6 @@ class HomeController
    $filePath = STORAGE_PATH . '/' . $_FILES['receipt']['name'];
    move_uploaded_file($_FILES['receipt']['tmp_name'],$filePath);
 
-    return View::make('upload'); 
+   header('Location: /');
   }
 }
