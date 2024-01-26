@@ -1,5 +1,6 @@
 <?php
-//Lesson 2.28 HTTP headers
+//Lesson 2.29 MySQL
+
 /*
 Model. The model layer is responsible for the application's data (business) logic and storing and retrieving data from back-end data stores. 
 The model layer might also include mechanisms for validating data and carrying out other data-related tasks. 

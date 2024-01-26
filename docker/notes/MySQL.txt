@@ -1,0 +1,65 @@
+MySQL Note
+
+Lesson 2.29
+
+CREATE
+create table users(
+	id int unsigned primary key auto_increment,
+    email varchar(255) unique key not null,
+    full_name varchar(255) not null,
+    is_active boolean default 0 not null,
+    created_at datetime not null,
+    key `is_active`(`is_active`)
+
+);
+
+SHOW TABLE
+describe users;
+
+ALTERING A TABLE
+alter table users add foo varchar(255), drop column is_active, modify full_name varchar(150);
+
+DROP TABLE
+drop users;
+
+INSERT
+insert into users(email,full_name,is_active,created_at)
+  values ('johndoe@email.com','John Doe',1,now()),('jilldoe@email.com','Jill Doe',1,now());
+
+SELECT
+select * from users;
+
+SELECT WITH FILTERS
+select id,email from users
+where id=1
+order by created_at desc;
+
+select id,email from users
+where email like '%doe%'
+order by created_at desc;
+
+UPDATING RECORDS
+update users
+set email = 'jane@gmail'
+where email like '%jill%'
+limit 5
+
+CREATE A LINKED TABLE
+create table invoices (
+	id int unsigned primary key auto_increment,
+    amount decimal(10,2),
+    user_id int unsigned,
+		foreign key (user_id) references users(id)
+			on delete set null
+            on update cascade
+);
+
+INSERT INTO TABLE
+use my_db;
+insert into invoices (amount,user_id)
+values (25,1), (115,1), (12000,1);
+
+INNER JOIN
+select invoices.id, amount, full_name
+from invoices
+inner join users on users.id = user_id;
