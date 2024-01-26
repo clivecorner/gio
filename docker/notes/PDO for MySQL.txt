@@ -1,0 +1,13 @@
+PDO  for MYSQL lesson 2.30
+
+
+
+
+
+API               MySQLi          PDO
+                  Procedural      OOP
+                  & OOP
+
+Drivers           MySQL         MySQL,SQlite ....
+
+Named params      No             yes

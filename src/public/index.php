@@ -1,5 +1,5 @@
 <?php
-//Lesson 2.29 MySQL
+//Lesson 2.30 - PDO Part 1 - Prepared Statements - SQL Injection
 
 /*
 Model. The model layer is responsible for the application's data (business) logic and storing and retrieving data from back-end data stores. 
