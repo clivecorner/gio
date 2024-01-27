@@ -1,6 +1,5 @@
 <?php
-//Lesson 2.30 - PDO Part 1 - Prepared Statements - SQL Injection
-
+//Lesson 2.31 - PDO Part 2 - Transactions - ENV Variables
 /*
 Model. The model layer is responsible for the application's data (business) logic and storing and retrieving data from back-end data stores. 
 The model layer might also include mechanisms for validating data and carrying out other data-related tasks. 
@@ -18,6 +17,9 @@ require __DIR__ . '/../vendor/autoload.php';
 
 define('STORAGE_PATH', __DIR__ . '/../storage');
 define('VIEW_PATH', __DIR__ . '/../views');
+
+$dotenv = \Dotenv\Dotenv::createImmutable(dirname(__DIR__));
+$dotenv->load();
 
 
 use App\View;

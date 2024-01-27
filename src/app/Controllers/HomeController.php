@@ -11,56 +11,51 @@ class HomeController
   {
 
     try {
-      $db = new \PDO('mysql:host=db;dbname=my_db', 'root', 'root');
 
-      $email = "sam5@sam.com";
-      $name = "Sam Smith";
-      $isActive = 1;
-      $createdAt = date_create()->format('Y-m-d H:i:s');
-
-
-
-      $query = 'INSERT INTO users (email,full_name,is_active,created_at) VALUES(:email,:name,:active,:date)';
-      echo $query;
-
-      $stmt = $db->prepare($query);
-
-            /*An alternative is to bind the VALUES
-      $stmt->bindValue(':name',$name);
-      $stmt->bindValue(':email',$email);
-      $stmt->bindValue(':active',$active, PDO::PARAM_BOOL);
-      $stmt->bindValue(':date',$date);
-
-      $stmt->execute();
-
-      */
-
-      $stmt->execute([
-        'email' => $email,
-        'name' => $name,
-        'active' => $isActive,
-        'date' => $createdAt]
+      $db = new \PDO('mysql:host=' . $_ENV['DB_HOST'] . ';dbname=' . $_ENV['DB_DATABASE'],
+       $_ENV['DB_USER'],
+       $_ENV['DB_PASS']
       );
 
-
-
-      $id = $db->lastInsertId();
-
-      $user = $db->query('SELECT * FROM users where id = ' . $id)->fetch();
-
-
-      echo '<pre>';
-      var_dump($user);
-      echo '</pre>';
-
-
     }catch(\PDOException $e){
+
       throw new \PDOException($e->getMessage(), $e->getCode());
     }
 
+    $email = "sam@gmail.com";
+    $name = "Sam Jones";
+    $amount = 25;
 
+    try {
+      $db->beginTransaction();
 
-  
+      //Using place holders create user
+      $newUserStmt = $db->prepare('INSERT INTO users (email,full_name,is_active,created_at) 
+        VALUES(?,?,1,NOW())'
+      );
+      //Using place holders create invoice
+      $newInvoiceStmt = $db->prepare('INSERT INTO invoices (amount,user_id)
+        VALUES (?,?)'
+      );
+
+      $newUserStmt->execute([$email, $name]);
+
+      $userId = (int) $db->lastInsertId();
+      echo $userId . '</br>';
+
+      $newInvoiceStmt->execute([$amount, $userId]);
+
+      $db->commit();
+    }catch (\Throwable $e){
+
+     echo $e->getMessage() . '</br>';
+
+      if($db->inTransaction()) {
+        $db->rollBack();
+
+      }
+    }
+
     return  (string) View::make('index', ['foo' => 'bar']);
 
   }

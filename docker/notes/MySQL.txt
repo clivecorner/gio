@@ -44,6 +44,8 @@ set email = 'jane@gmail'
 where email like '%jill%'
 limit 5
 
+
+NB sets user_id foreign key to null but does not seem to cascade
 CREATE A LINKED TABLE
 create table invoices (
 	id int unsigned primary key auto_increment,
@@ -63,3 +65,6 @@ INNER JOIN
 select invoices.id, amount, full_name
 from invoices
 inner join users on users.id = user_id;
+
+delete
+delete from invoices where user_id = 1;
