@@ -1,5 +1,5 @@
 <?php
-//Lesson 2.31 - PDO Part 2 - Transactions - ENV Variables
+//Lesson 2.32 - PDO Part 3.1 - Models & Refactoring (App, DB, Config classes)
 /*
 Model. The model layer is responsible for the application's data (business) logic and storing and retrieving data from back-end data stores. 
 The model layer might also include mechanisms for validating data and carrying out other data-related tasks. 
@@ -18,31 +18,34 @@ require __DIR__ . '/../vendor/autoload.php';
 define('STORAGE_PATH', __DIR__ . '/../storage');
 define('VIEW_PATH', __DIR__ . '/../views');
 
+use App\Router;
+use App\Controllers\HomeController;
+use App\Controllers\InvoiceController;
+use App\App;
+use App\Config;
+
+
 $dotenv = \Dotenv\Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->load();
 
+$router = new Router();
 
-use App\View;
-use App\Router;
+$router
+  ->post('/upload', [HomeController::class, 'upload'])
+  ->get('/', [HomeController::class, 'index'])
+  ->get('/invoices', [InvoiceController::class, 'index'])
+  ->get('/invoices/create', [InvoiceController::class, 'create'])
+  ->post('/invoices/create', [InvoiceController::class, 'store']);
 
-try {
-  //register routes
+(new App(
 
-  $router = new Router();
+  $router, 
+  [ 
+    'uri'     => $_SERVER['REQUEST_URI'],
+    'method'   => $_SERVER['REQUEST_METHOD']
+  ],
+  new Config($_ENV)))->run();
 
-  $router
-    ->post('/upload', [App\Controllers\HomeController::class, 'upload'])
-    ->get('/', [App\Controllers\HomeController::class, 'index'])
-    ->get('/invoices', [App\Controllers\InvoiceController::class, 'index'])
-    ->get('/invoices/create', [App\Controllers\InvoiceController::class, 'create'])
-    ->post('/invoices/create', [App\Controllers\InvoiceController::class, 'store']);
 
-  //Echo out the page
-  echo $router->resolve($_SERVER['REQUEST_URI'], strtolower($_SERVER['REQUEST_METHOD']));
 
-}catch(\App\Exceptions\RouteNotFoundException $e){
-
-  http_response_code(404);
-  echo View::make('error/404');
-}
 

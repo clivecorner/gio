@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\View;
+use App\App;
 
 class HomeController
 {
@@ -10,20 +11,10 @@ class HomeController
   public function index():string
   {
 
-    try {
+    $db = App::db();
 
-      $db = new \PDO('mysql:host=' . $_ENV['DB_HOST'] . ';dbname=' . $_ENV['DB_DATABASE'],
-       $_ENV['DB_USER'],
-       $_ENV['DB_PASS']
-      );
-
-    }catch(\PDOException $e){
-
-      throw new \PDOException($e->getMessage(), $e->getCode());
-    }
-
-    $email = "sam@gmail.com";
-    $name = "Sam Jones";
+    $email = "lynncorner6@gmail.com";
+    $name = "Lynn Corner";
     $amount = 25;
 
     try {
