@@ -2,61 +2,46 @@
 
 namespace App\Controllers;
 
+use App\Models\Invoice;
+use App\Models\SignUp;
+use App\Models\User;
 use App\View;
-use App\App;
 
 class HomeController
 {
 
-  public function index():string
-  {
+    public function index(): string
+    {
 
-    $db = App::db();
+        $email = "lynncorner103 @gmail.com";
+        $name = "Lynn Corner";
+        $amount = 25;
 
-    $email = "lynncorner6@gmail.com";
-    $name = "Lynn Corner";
-    $amount = 25;
+        $userModel = new User();
+        $invoiceModel = new Invoice();
 
-    try {
-      $db->beginTransaction();
+        $invoiceId = (new SignUp($userModel, $invoiceModel))->register(
 
-      //Using place holders create user
-      $newUserStmt = $db->prepare('INSERT INTO users (email,full_name,is_active,created_at) 
-        VALUES(?,?,1,NOW())'
-      );
-      //Using place holders create invoice
-      $newInvoiceStmt = $db->prepare('INSERT INTO invoices (amount,user_id)
-        VALUES (?,?)'
-      );
+            [
+                'email' => $email,
+                'name' => $name,
+            ],
+            [
+                'amount' => $amount,
+            ]
 
-      $newUserStmt->execute([$email, $name]);
+        );
 
-      $userId = (int) $db->lastInsertId();
-      echo $userId . '</br>';
+        return (string) View::make('index', ['invoice' => $invoiceModel->find($invoiceId)]);
 
-      $newInvoiceStmt->execute([$amount, $userId]);
-
-      $db->commit();
-    }catch (\Throwable $e){
-
-     echo $e->getMessage() . '</br>';
-
-      if($db->inTransaction()) {
-        $db->rollBack();
-
-      }
     }
 
-    return  (string) View::make('index', ['foo' => 'bar']);
+    public function upload()
+    {
+        //This works for single files not arrays
+        $filePath = STORAGE_PATH . '/' . $_FILES['receipt']['name'];
+        move_uploaded_file($_FILES['receipt']['tmp_name'], $filePath);
 
-  }
-
-  public function upload()
-  {
-  //This works for single files not arrays
-   $filePath = STORAGE_PATH . '/' . $_FILES['receipt']['name'];
-   move_uploaded_file($_FILES['receipt']['tmp_name'],$filePath);
-
-   header('Location: /');
-  }
+        header('Location: /');
+    }
 }

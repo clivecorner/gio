@@ -1,4 +1,5 @@
-FROM  php:8.0.2-fpm
+FROM  php:8.3.2-fpm
+
 
 RUN apt-get update && apt-get install -y \
 git \
@@ -9,6 +10,13 @@ vim
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+RUN apt update && apt install -y libicu-dev 
+RUN docker-php-ext-configure intl 
 RUN docker-php-ext-install pdo  pdo_mysql
+
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
+
+COPY ./xdebug.ini "${PHP_INI_DIR}/conf.d/xdebug.ini"
 
 WORKDIR /var/www

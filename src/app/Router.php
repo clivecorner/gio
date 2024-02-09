@@ -62,7 +62,7 @@ class Router
         $class = new $class();
 
         if(method_exists($class,$method)){
-          //We run the method within the class
+          //We run the method within the controller class
           return call_user_func_array([$class, $method], []);
         }
       }
