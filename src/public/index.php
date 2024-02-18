@@ -13,12 +13,8 @@ as an interface between the view and model layers. The controller is sometimes v
 moving and in sync. Requests responses and handle resources.
  */
 
-$j = 1;
-xdebug_info();
-exit;
 
 require __DIR__ . '/../vendor/autoload.php';
-
 define('STORAGE_PATH', __DIR__ . '/../storage');
 define('VIEW_PATH', __DIR__ . '/../views');
 
@@ -31,6 +27,7 @@ use App\Router;
 //Load the environment variables stored in .env
 $dotenv = \Dotenv\Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->load();
+
 
 $router = new Router();
 

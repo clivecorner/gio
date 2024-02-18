@@ -13,8 +13,8 @@ class HomeController
     public function index(): string
     {
 
-        $email = "lynncorner103 @gmail.com";
-        $name = "Lynn Corner";
+        $email = "user@email.com";
+        $name = "A User";
         $amount = 25;
 
         $userModel = new User();
