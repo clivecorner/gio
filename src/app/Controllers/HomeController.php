@@ -13,8 +13,8 @@ class HomeController
     public function index(): string
     {
 
-        $email = "user@email.com";
-        $name = "A User";
+        $email = "lynnforsyth@gmail.com";
+        $name = "Lynn Corner";
         $amount = 25;
 
         $userModel = new User();
@@ -31,7 +31,7 @@ class HomeController
             ]
 
         );
-
+        //original syntax:  return (new View('index'))->render();
         return (string) View::make('index', ['invoice' => $invoiceModel->find($invoiceId)]);
 
     }

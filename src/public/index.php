@@ -13,7 +13,6 @@ as an interface between the view and model layers. The controller is sometimes v
 moving and in sync. Requests responses and handle resources.
  */
 
-
 require __DIR__ . '/../vendor/autoload.php';
 define('STORAGE_PATH', __DIR__ . '/../storage');
 define('VIEW_PATH', __DIR__ . '/../views');
@@ -28,25 +27,30 @@ use App\Router;
 $dotenv = \Dotenv\Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->load();
 
-
 $router = new Router();
+try {
+    //Create routes
+    $router
+        ->get('/', [HomeController::class, 'index'])
+        ->post('/upload', [HomeController::class, 'upload'])
+        ->get('/invoices', [InvoiceController::class, 'index'])
+        ->get('/invoices/create', [InvoiceController::class, 'create'])
+        ->post('/invoices/create', [InvoiceController::class, 'store']);
 
-//Create routes
-$router
-    ->post('/upload', [HomeController::class, 'upload'])
-    ->get('/', [HomeController::class, 'index'])
-    ->get('/invoices', [InvoiceController::class, 'index'])
-    ->get('/invoices/create', [InvoiceController::class, 'create'])
-    ->post('/invoices/create', [InvoiceController::class, 'store']);
-
-//App gets the whole thing kicked off
-(new App(
-    //We take the now loaded router with us
-    $router,
-    //We have the two parameters to match to get the right controller and the right method
-    [
-        'uri' => $_SERVER['REQUEST_URI'],
-        'method' => $_SERVER['REQUEST_METHOD'],
-    ],
-    //And the config details to set up the DB connection
-    new Config($_ENV)))->run();
+    //App gets the whole thing kicked off with 3 parameters
+    (
+        new App(
+            //We take the now loaded router with us
+            $router,
+            //We have the two parameters to match to get the right controller and the right method
+            [
+                'uri' => $_SERVER['REQUEST_URI'],
+                'method' => $_SERVER['REQUEST_METHOD'],
+            ],
+            //And the config details to set up the DB connection
+            new Config($_ENV)
+        )
+    )->run();
+} catch (\Exception $e) {
+    echo $e->getMessage();
+}
